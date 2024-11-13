@@ -76,6 +76,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </div>
     </div>
 </footer>
+<p>
+    <?php if(isset($this->context->my_var)) : ?>
+        <?= $this->context->my_var ?> <!--получение значения переменной my_var из контролеера без рендера-->
+        <p><?= $this->params['t1'] ?></p> <!--получение записанных в представление данных (в массив params)-->
+    <?php endif; ?>
+</p>
 
 <?php $this->endBody() ?>
 </body>
