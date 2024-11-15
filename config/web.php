@@ -11,6 +11,8 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'language' => 'ru', // подключение русского языка
+    //'layout' => 'test', // шаблон по умолчанию для всего сайта
     /*'controllerMap' => [ // карта контроллеров
         // объявляет "test" контроллер, используя название класса
         'test' => 'app\controllers\SiteController', // контроллеру test  будет соответствовать site
