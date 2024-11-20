@@ -22,6 +22,9 @@ class TestController extends AppController
 
     public function actionIndex($name = 'Guest', $age = 18)
     {
+        //debug(\Yii::getAlias('@webroot'));
+        //debug(\Yii::getAlias('@web'));
+
         $this->layout = 'test'; // переопределяем шаблон только для действия actionIndex
         $this->my_var = 'My Variable'; // присваиваем значение свойству my_var
         //var_dump($name);

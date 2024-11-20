@@ -1,7 +1,10 @@
 <?php
 use yii\helpers\Html;
 
-$this->beginPage() ?>
+$this->beginPage();
+
+\app\assets\TestAsset::register($this); // регистрация комплекта ресурсов из папки assets
+?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 <head>

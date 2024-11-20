@@ -9,3 +9,21 @@ $this->registerMetaTag(['name' => 'description', 'content' => 'мета-опис
 ?>
 
 <p><code><?= __FILE__ ?></code></p>
+
+<!--подключаем для данного вида скрипт scripts.js (а не весь сразу комплект ресурсов)-->
+<?php $this->registerJsFile('@web/js/scripts.js', ['depends' => 'yii\web\YiiAsset']) ?>
+<!--'depends' => 'yii\web\YiiAsset' - то, от чего зависит скрипт-->
+<!--scripts.js необходимо подключать ПОСЛЕ gquery-->
+
+<!--$this->registerCssFile - подключаем файл css-->
+
+<?php
+//выполнение небольшого фрагмента кода JS
+    $js = <<<JS
+alert('Hello');
+JS;
+
+ $this->registerJs($js, yii\web\View::POS_LOAD); // выводим данный фрагмент кода JS
+// POS_LOAD - скрипт будет отрабатывать после загрузки всех элементов, в т.ч. картинок
+// POS_HEAD - скрипт выполнится независимо от библиотеки gquery (до загрузки страницы), он размещен в шапке
+?>

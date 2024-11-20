@@ -17,6 +17,10 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
+    // @webroot - возвращает физический путь к папке web
+    // @web - возвращает url-адрес к папке web
+    // это можно проверить с помощью метода getAlias
+    // $basePath и $baseUrl устанавливаются, если корневая директория файлов ресурса доступна из web
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
@@ -24,8 +28,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
     ];
-    public $depends = [
-        'yii\web\YiiAsset',
+    public $depends = [ // здесь находятся зависимости для стилей и скриптов
+        'yii\web\YiiAsset', // YiiAsset подключает скрипты YiiJs, при этом подключается jquery
         'yii\bootstrap5\BootstrapAsset'
     ];
 }
