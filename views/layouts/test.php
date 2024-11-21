@@ -15,7 +15,11 @@ $this->beginPage();
 </head>
 <body>
 <?php $this->beginBody() ?>
-    <?= $content ?> <!--вставить контент-->
+<div class = "container">
+    <div class = "row">
+        <?= $content ?> <!--вставить контент-->
+    </div>
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>

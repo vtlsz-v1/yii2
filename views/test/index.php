@@ -1,16 +1,24 @@
-<h2>Hello world</h2>
-<?= $this->render('inc') ?> <!--подключаем вид inc-->
-<?= $this->render('//inc/test.html') ?> <!--подключаем в вид файл html-->
-<p><?= 'Имя: ' . $name . '<br>' . 'Возраст: ' . $age ?></p>
-<p><?= $this->context->my_var ?></p> <!--получение значения переменной my_var из контролеера без рендера-->
-<p><?= $this->params['t1'] ?></p> <!--получение записанных в представление данных (в массив params)-->
+<?php
+use yii\widgets\ActiveForm; // подключаем виджет для создания формы
+use yii\helpers\Html; // требуется для создания кнопки
+?>
+<div class = "col-md-12">
+    <h2>Страница с формой</h2>
 
-<!--присвоение значения переменной для передачи данных из вида в шаблон-->
-<?php $this->params['t2'] = 'T2 params'; ?>
-<p><?= $this->params['t2'] ?></p>
+    <?php $form = ActiveForm::begin() // открытие формы ?>
 
-<!--использование блоков для передачи данных из вида в шаблон-->
-<?php $this->beginBlock('block1'); ?>
-    <p><?= $this->params['t2'] ?></p>
-    <p>...содержимое блока 1...</p>
-<?php $this->endBlock(); ?>
+    <!--метод field() используется для создания полей формы
+        1-й параметр - модель формы
+        2-й параметр - поле формы-->
+    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'email') ?>
+    <?= $form->field($model, 'text')->textarea(['rows' => 7]) // текстовая область из 7 строк ?>
+    <!--   ['rows' => 10] - массив опций метода   -->
+
+    <div class="form-group">
+        <?= HTML::submitButton('Отправить', ['class' => 'btn btn-outline-dark my-3']) // кнопка ?>
+    </div>
+
+    <?php ActiveForm::end() // закрытие формы ?>
+
+</div>
