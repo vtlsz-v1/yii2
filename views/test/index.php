@@ -47,7 +47,7 @@ use yii\helpers\Html; // требуется для создания кнопки
 
     <!--кнопка-->
     <div class="form-group">
-        <div class="d-grid gap-2 col-md-9 col-md-offset-2">
+        <div class="d-grid gap-2 col-md-5 offset-md-2">
             <?= HTML::submitButton('Отправить', ['class' => 'btn btn-outline-dark my-3', 'type' => 'button']) ?>
         </div>
     </div>
