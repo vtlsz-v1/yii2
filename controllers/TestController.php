@@ -18,15 +18,15 @@ class TestController extends AppController
 
         // если в модель из формы загружены данные и они прошли валидацию
         if($model->load(\Yii::$app->request->post()) && $model->validate()) {
-            if(\Yii::$app->request->isPjax) { // если данные отправлены плагином Pjax
+             /*if(\Yii::$app->request->isPjax) { // если данные отправлены плагином Pjax
                 // записываем в сессию сообщение
                 \Yii::$app->session->setFlash('success', 'Данные приняты через Pjax');
                 $model = new EntryForm(); // очищаем форму
-            } else {
+            } else {*/
                 // записываем в сессию сообщение
                 \Yii::$app->session->setFlash('success', 'Данные приняты стандартно');
                 return $this->refresh(); // перезагружаем страницу
-            }
+            /*}*/
 
         }
 

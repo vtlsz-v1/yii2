@@ -47,6 +47,8 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
     <?= $form->field($model, 'email')->hint('<span class="text-info">Укажите здесь Ваш email</span>')
         ->input('email', ['placeholder' => 'Введите Ваш email']) // подсказка внутри поля, email - тип поля ?>
 
+    <?= $form->field($model, 'topic')->input('text', ['placeholder' => 'Тема сообщения']) ?>
+
     <?= $form->field($model, 'text', [
         // шаблон для поля формы
         //'template' => "<!--{label} \n --> <div class='col-md-5'> {input} </div> \n <div class='col-md-5'> {hint} </div> \n
