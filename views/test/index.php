@@ -2,13 +2,24 @@
 //use yii\widgets\ActiveForm; // подключаем виджет для создания формы
 use yii\bootstrap5\ActiveForm; // подключаем виджет для создания формы
 use yii\helpers\Html; // требуется для создания кнопки
+use yii\widgets\Pjax; // требуется для перезагрузки только части страницы (области с формой)
 ?>
 <div class = "col-md-12">
     <h2 class="my-3">Страница с формой</h2>
 
+    <?php Pjax::begin() // начало перезагружаемой (обновляемой) области ?>
+    <?php if(\Yii::$app->session->hasFlash('success')) : // если в сессию записано сообщение с ключом success ?>
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?= Yii::$app->session->getFlash('success') // выводим сообщение на экран ?>
+        </div>
+    <?php endif; ?>
+
     <?php $form = ActiveForm::begin([ // открытие формы
             'layout' => 'horizontal', // горизонтальная форма
-            'options' => ['class' => 'signup-form form-register1'],
+            'options' => ['class' => 'signup-form form-register1',
+                            'data-pjax' => true, // требуется для использования Pjax
+                         ],
             'id' => 'my-form', // переопределяем id формы
             //'enableClientValidation' => false, // отключение клиентской валидации
             /*'options' => [ // массив дополнительных настроек
@@ -53,6 +64,7 @@ use yii\helpers\Html; // требуется для создания кнопки
     </div>
 
     <?php ActiveForm::end() // закрытие формы ?>
+    <?php Pjax::end() // конец перезагружаемой области ?>
 
 </div>
 
