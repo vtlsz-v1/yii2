@@ -47,7 +47,8 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
     <?= $form->field($model, 'email')->hint('<span class="text-info">Укажите здесь Ваш email</span>')
         ->input('email', ['placeholder' => 'Введите Ваш email']) // подсказка внутри поля, email - тип поля ?>
 
-    <?= $form->field($model, 'topic')->input('text', ['placeholder' => 'Тема сообщения']) ?>
+    <?= $form->field($model, 'topic', ['enableAjaxValidation' => true]) // вкл. AJAX-валидацию для данного поля
+        ->input('text', ['placeholder' => 'Тема сообщения']) ?>
 
     <?= $form->field($model, 'text', [
         // шаблон для поля формы
@@ -70,3 +71,27 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
 
 </div>
 
+<?php
+$js = <<<JS
+var form = $('#my-form'); // идентификатор формы
+form.on('beforeSubmit', function(){  // функция выполняется по событию beforeSubmit
+    var data = form.serialize(); // берем данные из формы с помощью gquery-метода serialize()
+    $.ajax({ // выполняем AJAX-запрос
+        url: form.attr('action'), // url, куда будут отправлены данные, берем из атрибута формы action
+        type: 'POST',
+        data: data,
+        success: function(res){
+            console.log(res); // выводим ответ в консоль
+            form[0].reset();  // и очищаем форму
+        },
+        error: function(){ // сообщение об ошибке
+            alert('Error!');
+        }
+    });
+    return false; // отменяет событие по умолчанию (отправку формы, которая будет отправлена по AJAX)
+});
+JS;
+
+$this->registerJs($js); // регистрируем скрипт js
+
+?>

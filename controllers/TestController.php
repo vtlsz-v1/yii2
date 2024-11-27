@@ -2,7 +2,11 @@
 
 namespace app\controllers;
 
-use app\models\EntryForm; // импорт пространства имен из модели формы
+use app\models\EntryForm;
+use yii\bootstrap5\ActiveForm;
+use yii\web\Response;
+
+// импорт пространства имен из модели формы
 
 class TestController extends AppController
 {
@@ -17,17 +21,28 @@ class TestController extends AppController
         $model = new EntryForm(); // создаем объект формы
 
         // если в модель из формы загружены данные и они прошли валидацию
-        if($model->load(\Yii::$app->request->post()) && $model->validate()) {
+        /*if($model->load(\Yii::$app->request->post()) && $model->validate()) {*/
              /*if(\Yii::$app->request->isPjax) { // если данные отправлены плагином Pjax
                 // записываем в сессию сообщение
                 \Yii::$app->session->setFlash('success', 'Данные приняты через Pjax');
                 $model = new EntryForm(); // очищаем форму
             } else {*/
                 // записываем в сессию сообщение
-                \Yii::$app->session->setFlash('success', 'Данные приняты стандартно');
-                return $this->refresh(); // перезагружаем страницу
+                /*\Yii::$app->session->setFlash('success', 'Данные приняты стандартно');*/
+               /* return $this->refresh(); // перезагружаем страницу*/
             /*}*/
+        /*}*/
 
+        // отправка данных с помощью AJAX
+        $model->load(\Yii::$app->request->post()); // загружаем данные в модель
+        if (\Yii::$app->request->isAjax) { // если данные пришли по AJAX
+            \Yii::$app->response->format = Response::FORMAT_JSON; // выставляем формат ответа JSON
+            if($model->validate()) { // если пройдена валидация
+                return ['message' => 'OK']; // возвращаем сообщение об успехе
+            } else {
+                return ActiveForm::validate($model); // если валидация не пройдена, возвращаем данные об ошибке
+            }
+            //return ActiveForm::validate($model); // возвращаем результат валидации (массив ошибок, если она не пройдена)
         }
 
         // передача объекта формы $model в вид index с помощью функции compact
