@@ -56,10 +56,48 @@ class TestController extends AppController
         $this->layout = 'test';
         $this->view->title = 'Работа с моделями';
 
-        $model = new Country(); // этот объект будет работать с базой данных
+        //$model = new Country(); // этот объект будет работать с базой данных
+
+        //$countries = Country::find()->all(); // создание объекта запроса к таблице БД
+                                             // метод all() позволяет получить все записи из таблицы
+
+        // выбираем только записи с population < 100000000, кроме записе с code AU (Australia)
+        // для защиты от SQL-инъекций здесь использована привязка параметров, реализованную в подоготовленных выражениях
+        // вместо конкретного значения переменной population используется маркер :population
+        // к этому маркеру привязывается переменная либо какое-то выражение - :population' => 100000000
+        // маркер может называться как угодно
+        /*$countries = Country::find()->where("population < :population AND code <> :code",
+            [':code' => 'AU', ':population' => 100000000])->all(); // строковый формат*/
+
+        /*$countries = Country::find()->where([
+            'code' => ['DE', 'FR', 'GB'],
+            'status' => 1,
+        ])->all(); // формат массива*/
+
+        //$countries = Country::find()->where(['like', 'name', 'ni'])->all(); // формат операторов
+        // like - оператор
+        // name - название поля таблицы
+        // ni - значение подстроки, которая должна присутствовать в названии страны
+
+        //$countries = Country::find()->orderBy('population DESC')->all(); // сортировка в обратном порядке
+                                                                                 // по полю population
+
+        //$countries = Country::find()->count(); // получаем общее количество записей в таблице
+        //debug($countries, 1);
+
+        //$countries = Country::find()->limit(1)->where(['code'  => 'CN'])->one(); // берем только одну строку из таблицы
+
+        //$countries = Country::findAll(['DE', 'FR', 'GB']); // соответствует записи Country::find()->all();
+        // но здесь нужно в скобках указывать параметры запроса
+
+        //$countries = Country::findOne('BR'); // получаем одну запись из таблицы по первичному ключу
+
+        $countries = Country::find()->asArray()->all();
+        // метод asArray() запрашивает данные не в виде объектов, а в виде массивов, что требует меньше памяти
 
         // передаем объект $model в вид view
-        return $this->render('view', compact('model'));
+        //return $this->render('view', compact('model'));
+        return $this->render('view', compact('countries'));
     }
 
     public function actionMyTest()
