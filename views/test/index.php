@@ -57,7 +57,7 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
         //'labelOptions' => ['class' => 'col-md-2 control-label'], // опции для label
     ])->textarea(['rows' => 7, 'placeholder' => 'Введите текст'])
     // текстовая область из 7 строк ?>
-    <!--   ['rows' => 10] - массив опций метода   -->
+    <!--   ['rows' => 7] - массив опций метода   -->
 
     <!--кнопка-->
     <div class="form-group">

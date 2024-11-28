@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Country;
 use app\models\EntryForm;
 use yii\bootstrap5\ActiveForm;
 use yii\web\Response;
@@ -48,6 +49,17 @@ class TestController extends AppController
         // передача объекта формы $model в вид index с помощью функции compact
         // если страница не загружена или валидация не пройдена
         return $this->render('index', compact('model'));
+    }
+
+    public function actionView()
+    {
+        $this->layout = 'test';
+        $this->view->title = 'Работа с моделями';
+
+        $model = new Country(); // этот объект будет работать с базой данных
+
+        // передаем объект $model в вид view
+        return $this->render('view', compact('model'));
     }
 
     public function actionMyTest()
