@@ -51,7 +51,7 @@ class TestController extends AppController
         return $this->render('index', compact('model'));
     }
 
-    public function actionView()
+    public function actionView() // чтение данных из таблицы
     {
         $this->layout = 'test';
         $this->view->title = 'Работа с моделями';
@@ -103,6 +103,41 @@ class TestController extends AppController
     public function actionMyTest()
     {
         return $this->render('my-test');
+    }
+
+    public function actionCreate() // добавление новых данных в таблицу
+    {
+        $this->layout = 'test';
+        $this->view->title = 'Create';
+
+        $country = new Country(); // создаем экземпляр модели
+
+        if(\Yii::$app->request->isAjax) { // если запрос приходит по AJAX
+            $country->load(\Yii::$app->request->post()); // загружаем данные в модель из массива post
+            \Yii::$app->response->format = Response::FORMAT_JSON; // настраиваем формат ответа JSON
+
+            return ActiveForm::validate($country); // возвращаем результат валидации
+        }
+
+        if($country->load(\Yii::$app->request->post()) && $country->save()) { // если данные загружены в модель,
+                                                                              //прошли валидацию и сохранены
+            \Yii::$app->session->setFlash('success', 'OK'); // пишем в сессию 'OK'
+            return $this->refresh(); // обновляем страницу
+        } // else не потребуется, т.к. при появлении проблем появятся ошибки валидации
+
+        // заполняем свойства модели данными, которые будут добавлены в соответствующие столбцы таблицы
+        /*$country->code = 'UA';
+        $country->name = 'Ukraine';
+        $country->population = 41840000;
+        $country->status = 1;
+
+        if($country->save()) { // если данные успешно сохранены
+            \Yii::$app->session->setFlash('success', 'OK'); // пишем в сессию 'OK'
+        } else {
+            \Yii::$app->session->setFlash('error', 'Ошибка!'); // пишем в сессию 'Ошибка!'
+        }*/
+
+        return $this->render('create', compact('country')); // передаем виду объект $country
     }
 
 }

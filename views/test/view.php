@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <h1>Работа с моделями</h1>
+    <h1><?= $this->title ?></h1>
     <?php debug($countries) ?>
     <?php /*debug($model->getAttributes())*/ // получение атрибутов модели (имена столбцов таблицы) ?><!--
 

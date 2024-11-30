@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 28 2024 г., 01:24
+-- Время создания: Дек 01 2024 г., 00:19
 -- Версия сервера: 10.4.24-MariaDB
 -- Версия PHP: 8.1.6
 
@@ -30,24 +30,27 @@ SET time_zone = "+00:00";
 CREATE TABLE `country` (
   `code` char(2) NOT NULL,
   `name` char(52) NOT NULL,
-  `population` int(11) NOT NULL DEFAULT 0
+  `population` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `country`
 --
 
-INSERT INTO `country` (`code`, `name`, `population`) VALUES
-('AU', 'Australia', 24016400),
-('BR', 'Brazil', 205722000),
-('CA', 'Canada', 35985751),
-('CN', 'China', 1375210000),
-('DE', 'Germany', 81459000),
-('FR', 'France', 64513242),
-('GB', 'United Kingdom', 65097000),
-('IN', 'India', 1285400000),
-('RU', 'Russia', 146519759),
-('US', 'United States', 322976000);
+INSERT INTO `country` (`code`, `name`, `population`, `status`) VALUES
+('AU', 'Australia', 24016400, 0),
+('BR', 'Brazil', 205722000, 0),
+('CA', 'Canada', 35985751, 0),
+('CN', 'China', 1375210000, 0),
+('DE', 'Germany', 81459000, 1),
+('FR', 'France', 64513242, 1),
+('GB', 'United Kingdom', 65097000, 0),
+('IN', 'India', 1285400000, 0),
+('KZ', 'Kazakhstan', 20140000, 1),
+('RU', 'Russia', 146519759, 0),
+('UA', 'Ukraine', 41840000, 1),
+('US', 'United States', 322976000, 0);
 
 --
 -- Индексы сохранённых таблиц
