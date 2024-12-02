@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Country;
 use app\models\EntryForm;
 use yii\bootstrap5\ActiveForm;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 // импорт пространства имен из модели формы
@@ -138,6 +139,46 @@ class TestController extends AppController
         }*/
 
         return $this->render('create', compact('country')); // передаем виду объект $country
+    }
+
+    public function actionUpdate() // обновление данных в таблице
+    {
+        $this->layout = 'test';
+        $this->view->title = 'Update';
+
+        $country = Country::findOne('FR'); // получение обновляемой строки в таблице по первичному ключу
+
+        if(!$country) { // если $country равен NULL (т.е. объект записи не получен)
+            throw new NotFoundHttpException('Такая страна не найдена'); // будет подключен вид ошибки 404
+            // views/site/error - страница ошибки
+        }
+
+        if($country->load(\Yii::$app->request->post()) && $country->save()) { // если данные загружены в модель,
+            //прошли валидацию и сохранены
+            \Yii::$app->session->setFlash('success', 'OK'); // пишем в сессию 'OK'
+            return $this->refresh(); // обновляем страницу
+        }
+
+        return $this->render('update', compact('country')); // передаем виду объект $country
+    }
+
+    public function actionDelete($code = '') // удаление данных из таблицы (здесь параметр - код страны)
+    {
+        $this->layout = 'test';
+        $this->view->title = 'Delete';
+
+        $country = Country::findOne($code); // получение удаляемой строки в таблице по первичному ключу
+
+        if($country){ // если запись в таблице с таким ключом существует
+            if(false !== $country->delete()) { // если нет ошибки удаления
+                \Yii::$app->session->setFlash('success', 'OK'); // записываем в сессию 'OK'
+            } else { // ошибка удаления
+                \Yii::$app->session->setFlash('error', 'Error'); // записываем в сессию 'Error'
+            }
+
+        }
+
+        return $this->render('delete', compact('country')); // передаем виду объект $country
     }
 
 }
