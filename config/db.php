@@ -6,7 +6,7 @@ return [
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',
-    //'tablePrefix' => 'wf_', // установка префикса для таблицы
+    'tablePrefix' => 'wfm_', // установка префикса для таблицы
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
