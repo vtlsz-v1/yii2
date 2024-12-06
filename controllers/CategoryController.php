@@ -16,7 +16,10 @@ class CategoryController extends AppController // категории товар�
     public function actionView($id = null) // работа с товарами одной категории (метод принимает ее id)
     {
         $category = Category::findOne($id);
+        $products = $category->getProducts(850)->all(); // получаем список товаров (с учетом параметра цены)
         $this->view->title = "Category: {$category->title}"; // наименование категории товаров
-        return $this->render('view', compact('category')); // передаем в вид view значение $category
+
+        // передаем в вид view значение $category и  $products
+        return $this->render('view', compact('category', 'products'));
     }
 }
