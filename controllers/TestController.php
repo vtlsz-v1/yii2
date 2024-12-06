@@ -12,7 +12,7 @@ use yii\web\Response;
 
 class TestController extends AppController
 {
-    public function actionIndex($name = 'Guest', $age = 18)
+    public function actionIndex($alert = '', $name = 'Guest', $age = 18)
     {
         $this->layout = 'test'; // переопределяем шаблон только для действия actionIndex
         $this->view->params['t1'] = 'T1 params'; // тоже записывает данные в вид (доступ к виду из контроллера)
@@ -20,9 +20,43 @@ class TestController extends AppController
         // установка метатегов через контроллер
         $this->view->registerMetaTag(['name' => 'description', 'content' => 'мета-описание...'], 'description');
 
+        switch ($alert) { // проверка переменной, передаваемой через адресную строку
+            case 'error':
+                // записываем в сессию сообщение об ошибке
+                \Yii::$app->session->setFlash('error', 'Error');
+                break;
+            case 'success':
+                // записываем в сессию сообщение об успехе
+                \Yii::$app->session->setFlash('success', 'OK');
+                break;
+            case 'info':
+                // записываем в сессию информационное сообщение
+                \Yii::$app->session->setFlash('info', 'INFO');
+                break;
+            case 'warning':
+                // записываем в сессию предупреждающее сообщение
+                \Yii::$app->session->setFlash('warning', 'WARNING');
+                break;
+            default:
+                \Yii::$app->session->setFlash('danger', 'Danger');
+        }
+
         $model = new EntryForm(); // создаем объект формы
 
-        // если в модель из формы загружены данные и они прошли валидацию
+        if($model->load(\Yii::$app->request->post())) // если данные отправлены методом post
+        {
+            if ($model->validate()) { // если валидация успешно пройдена
+                // записываем в сессию сообщение об успехе
+                \Yii::$app->session->setFlash('success', 'OK');
+                return $this->refresh(); // перезагружаем страницу
+            } else {
+                // иначе записываем в сессию сообщение об ошибке
+                \Yii::$app->session->setFlash('error', 'Error');
+            }
+        }
+
+
+            // если в модель из формы загружены данные и они прошли валидацию
         /*if($model->load(\Yii::$app->request->post()) && $model->validate()) {*/
              /*if(\Yii::$app->request->isPjax) { // если данные отправлены плагином Pjax
                 // записываем в сессию сообщение
@@ -36,7 +70,7 @@ class TestController extends AppController
         /*}*/
 
         // отправка данных с помощью AJAX
-        $model->load(\Yii::$app->request->post()); // загружаем данные в модель
+        /*$model->load(\Yii::$app->request->post()); // загружаем данные в модель
         if (\Yii::$app->request->isAjax) { // если данные пришли по AJAX
             \Yii::$app->response->format = Response::FORMAT_JSON; // выставляем формат ответа JSON
             if($model->validate()) { // если пройдена валидация
@@ -45,7 +79,7 @@ class TestController extends AppController
                 return ActiveForm::validate($model); // если валидация не пройдена, возвращаем данные об ошибке
             }
             //return ActiveForm::validate($model); // возвращаем результат валидации (массив ошибок, если она не пройдена)
-        }
+        }*/
 
         // передача объекта формы $model в вид index с помощью функции compact
         // если страница не загружена или валидация не пройдена

@@ -7,13 +7,30 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
 <div class = "col-md-12">
     <h2 class="my-3">Страница с формой</h2>
 
+    <!--вызываем пользовательский виджет и передаем ему массив настроек-->
+    <?php /*=\app\components\HelloWidget::widget(['name' => 'Admin'])*/ ?>
+
+    <!--вызываем метод begin() виджета, который его открывает-->
+    <?php \app\components\HelloWidget::begin(['name' => 'Admin']) ?>
+        <h1>Контент виджета</h1> <!--здесь выводится заголовок h1 и результат рендеринга виджета-->
+    <?php \app\components\HelloWidget::end() ?> <!--закрываем виджет-->
+
     <?php Pjax::begin() // начало перезагружаемой (обновляемой) области ?>
-    <?php if(\Yii::$app->session->hasFlash('success')) : // если в сессию записано сообщение с ключом success ?>
+    <?=\app\widgets\Alert::widget() ?><!--ВЫВОДИМ ЗАПИСАННОЕ В СЕССИЮ СООБЩЕНИЕ С ПОМОЩЬЮ ВИДЖЕТА Alert-->
+
+    <?php /*if(\Yii::$app->session->hasFlash('success')) : // если в сессию записано сообщение с ключом success */?><!--
         <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <?= Yii::$app->session->getFlash('success') // выводим сообщение на экран ?>
+        <?php /*= Yii::$app->session->getFlash('success') // выводим сообщение на экран */?>
         </div>
-    <?php endif; ?>
+    <?php /*endif; */?>
+
+    <?php /*if(\Yii::$app->session->hasFlash('error')) : // если в сессию записано сообщение с ключом error */?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php /*= Yii::$app->session->getFlash('error') // выводим сообщение на экран */?>
+        </div>
+    --><?php /*endif; */?>
 
     <?php $form = ActiveForm::begin([ // открытие формы
             'layout' => 'horizontal', // горизонтальная форма
@@ -21,7 +38,7 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
                             'data-pjax' => true, // требуется для использования Pjax
                          ],
             'id' => 'my-form', // переопределяем id формы
-            //'enableClientValidation' => false, // отключение клиентской валидации
+            'enableClientValidation' => false, // отключение клиентской валидации
             /*'options' => [ // массив дополнительных настроек
                 'class' => 'form-horizontal', // определяем класс bootstrap
             ],*/
@@ -47,7 +64,7 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
     <?= $form->field($model, 'email')->hint('<span class="text-info">Укажите здесь Ваш email</span>')
         ->input('email', ['placeholder' => 'Введите Ваш email']) // подсказка внутри поля, email - тип поля ?>
 
-    <?= $form->field($model, 'topic', ['enableAjaxValidation' => true]) // вкл. AJAX-валидацию для данного поля
+    <?= $form->field($model, 'topic', ['enableAjaxValidation' => false]) // вкл. AJAX-валидацию для данного поля
         ->input('text', ['placeholder' => 'Тема сообщения']) ?>
 
     <?= $form->field($model, 'text', [
@@ -72,7 +89,7 @@ use yii\widgets\Pjax; // требуется для перезагрузки то
 </div>
 
 <?php
-$js = <<<JS
+/*$js = <<<JS
 var form = $('#my-form'); // идентификатор формы
 form.on('beforeSubmit', function(){  // функция выполняется по событию beforeSubmit
     var data = form.serialize(); // берем данные из формы с помощью gquery-метода serialize()
@@ -90,8 +107,8 @@ form.on('beforeSubmit', function(){  // функция выполняется п
     });
     return false; // отменяет событие по умолчанию (отправку формы, которая будет отправлена по AJAX)
 });
-JS;
+JS;*/
 
-$this->registerJs($js); // регистрируем скрипт js
+//$this->registerJs($js); // регистрируем скрипт js
 
 ?>
