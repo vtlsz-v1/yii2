@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 05 2024 г., 22:01
+-- Время создания: Дек 08 2024 г., 20:41
 -- Версия сервера: 10.4.24-MariaDB
 -- Версия PHP: 8.1.6
 
@@ -29,19 +29,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `wfm_categories` (
   `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `wfm_categories`
 --
 
-INSERT INTO `wfm_categories` (`id`, `title`) VALUES
-(1, 'Apple'),
-(2, 'Asus'),
-(3, 'Nokia'),
-(4, 'Samsung'),
-(5, 'Sony');
+INSERT INTO `wfm_categories` (`id`, `title`, `alias`) VALUES
+(1, 'Apple', 'apple'),
+(2, 'Asus', 'asus'),
+(3, 'Nokia', 'nokia'),
+(4, 'Samsung', 'samsung'),
+(5, 'Sony', 'sony');
 
 --
 -- Индексы сохранённых таблиц

@@ -28,7 +28,8 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'ergg_hrtY57LFggon072f5h7dcsfd4ShLOTDj_KhhTY7jYhrt71jtDNpSezL5N',
+            'cookieValidationKey' => 'erg_hrLFg0f5h7dc4ShLT3hhTjYhrtDNpSezL5N', // ключ валидации
+            'baseUrl' => '', // базовый URL-адрес (избавляемся от папки web в адресной строке)
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -56,14 +57,22 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
+
+        'urlManager' => [ // URL-менеджер
+            'enablePrettyUrl' => true, // активация ЧПУ
+            'showScriptName' => false, // откл. показ в адресной строке браузера index.php (т.е. название скрипта)
+            'enableStrictParsing' => false, // вкл. строгий разбор URL
+            'rules' => [ // массив правил настройки ЧПУ
+                // чем более конкретное (специфичное) правило, тем выше оно должно быть в списке
+
+                // адрес слева соответствует действию view контроллера category
+                // именованный параметр id: - id категории
+                //'category/view/<id:\d+>' => 'category/view', // здесь 'd' соответствует любая цифра
+                'category/<id:\d+>' => 'category/view', // убираем 'view' из адресной строки браузера
+                'category/<alias>' => 'category/view', // заменяем id на alias
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
